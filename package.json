@@ -1,0 +1,23 @@
+{
+  "name": "fakeapi",
+  "version": "1.0.0",
+  "description": "teste apifake",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/henriquejbraga/fakeAPI.git"
+  },
+  "author": "henrique",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/henriquejbraga/fakeAPI/issues"
+  },
+  "homepage": "https://github.com/henriquejbraga/fakeAPI#readme",
+  "dependencies": {
+    "jest": "^28.1.3",
+    "supertest": "^6.2.4"
+  }
+}
