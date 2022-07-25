@@ -1,9 +1,9 @@
 {
   "name": "fakeapi",
+  "type": "module",
   "version": "1.0.0",
   "description": "teste apifake",
   "main": "index.js",
-  "type": "module",
   "scripts": {
     "test": "jest"
   },

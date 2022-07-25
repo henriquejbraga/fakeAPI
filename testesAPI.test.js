@@ -1,6 +1,9 @@
 const request = require("supertest");
 const API_URL = "https://my-json-server.typicode.com/henriquejbraga/fakeAPI";
 
+// import db from "./db.json"
+// const dbCursos = db.json
+// está dando erro no import: SyntaxError: Cannot use import statement outside a module
 const cursos = [
   {
     id: 1,
@@ -70,37 +73,57 @@ describe("Faça requisições na API com o método POST", () => {
     const response = await request(API_URL).post("/cursos/");
     expect(response.statusCode).toBe(201);
   });
-  it("Deve criar um curso", async () => {
+  it("Deve criar um curso e receber status 201", async () => {
     const response = await request(API_URL).post("/cursos").send({
       titulo: "treinando teste POST",
       url: "https://www.google.com",
     });
-    expect(response.body.titulo).toBe("treinando teste POST")
-    expect(response.body.url).toBe("https://www.google.com")
-  })
-    it("Faça uma requisição na rota alunos e retorne status 201", async () => {
-      const response = await request(API_URL).post("/alunos/");
-      expect(response.statusCode).toBe(201);
+    expect(response.statusCode).toBe(201);
+    expect(response.body.titulo).toBe("treinando teste POST");
+    expect(response.body.url).toBe("https://www.google.com");
+  });
+  it("Faça uma requisição na rota alunos e retorne status 201", async () => {
+    const response = await request(API_URL).post("/alunos/");
+    expect(response.statusCode).toBe(201);
+  });
+  it("Deve criar um aluno e receber status 201", async () => {
+    const response = await request(API_URL).post("/alunos").send({
+      nome: "Henrique Braga",
+      curso: 3,
     });
-    it("Deve criar um aluno", async () => {
-      const response = await request(API_URL).post("/alunos").send({
-        nome: "Henrique Braga",
-        curso: 3,
-      });
-      expect(response.body.nome).toBe("Henrique Braga")
-      expect(response.body.curso).toBe(3)
-    })
-  })
+    expect(response.statusCode).toBe(201);
+    expect(response.body.nome).toBe("Henrique Braga");
+    expect(response.body.curso).toBe(3);
+  });
+});
 
 describe("Faça requisições na API com o método PUT", () => {
-  it("Faça uma requisição na rota cursos e retorne status 200", async () => {
-    const response = await request(API_URL).put("/cursos/1");
-    expect(response.statusCode).toBe(200);
+  it("Faça uma atualizaçao do titulo com put, e receba status 200 e titulo atualizado", async () => {
+    await request(API_URL)
+      .put("/cursos/1")
+      .send({
+        titulo: "Atualizando titulo",
+        url: "https://www.codeprestige.com.br/cursos/es6",
+      })
+      .expect(200);
+    return await request(API_URL)
+      .get("/cursos/1")
+      .query({ titulo: "Atualizando titulo" })
+      .expect(200);
   });
 
-  it("Faça uma requisição na rota alunos e retorne status 200", async () => {
-    const response = await request(API_URL).put("/alunos/1");
-    expect(response.statusCode).toBe(200);
+  it("Faça uma atualizaçao do nome com put, e receba status 200 e titulo atualizado", async () => {
+    await request(API_URL)
+      .put("/alunos/1")
+      .send({
+        nome: "Atualizando nome",
+        curso: 1,
+      })
+      .expect(200);
+    return await request(API_URL)
+      .get("/alunos/1")
+      .query({ nome: "Atualizando nome" })
+      .expect(200);
   });
 });
 
