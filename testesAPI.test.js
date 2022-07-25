@@ -70,17 +70,34 @@ describe("Faça requisições na API com o método POST", () => {
     const response = await request(API_URL).post("/cursos/");
     expect(response.statusCode).toBe(201);
   });
-  it("Faça uma requisição na rota alunos e retorne status 201", async () => {
-    const response = await request(API_URL).post("/alunos/");
-    expect(response.statusCode).toBe(201);
-  });
-});
+  it("Deve criar um curso", async () => {
+    const response = await request(API_URL).post("/cursos").send({
+      titulo: "treinando teste POST",
+      url: "https://www.google.com",
+    });
+    expect(response.body.titulo).toBe("treinando teste POST")
+    expect(response.body.url).toBe("https://www.google.com")
+  })
+    it("Faça uma requisição na rota alunos e retorne status 201", async () => {
+      const response = await request(API_URL).post("/alunos/");
+      expect(response.statusCode).toBe(201);
+    });
+    it("Deve criar um aluno", async () => {
+      const response = await request(API_URL).post("/alunos").send({
+        nome: "Henrique Braga",
+        curso: 3,
+      });
+      expect(response.body.nome).toBe("Henrique Braga")
+      expect(response.body.curso).toBe(3)
+    })
+  })
 
 describe("Faça requisições na API com o método PUT", () => {
   it("Faça uma requisição na rota cursos e retorne status 200", async () => {
     const response = await request(API_URL).put("/cursos/1");
     expect(response.statusCode).toBe(200);
   });
+
   it("Faça uma requisição na rota alunos e retorne status 200", async () => {
     const response = await request(API_URL).put("/alunos/1");
     expect(response.statusCode).toBe(200);
