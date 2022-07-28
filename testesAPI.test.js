@@ -60,6 +60,9 @@ describe("Realiza requisiçoes na API na rota /cursos", () => {
     it("Faça uma requisição e retorne status 200 e body correspontente", async () => {
       const response = await request(API_URL).get("/cursos");
       expect(response.statusCode).toBe(200);
+    });
+    it("Faça uma requisição e retorne o body correspontente", async () => {
+      const response = await request(API_URL).get("/cursos");
       expect(response.body).toEqual(cursos);
     });
   });
@@ -88,6 +91,15 @@ describe("Realiza requisiçoes na API na rota /cursos", () => {
         .query({ titulo: "Atualizando titulo" })
         .expect(200);
     });
+    it("Faça uma atualizaçao de um id inexistente e retorne status 404", async () => {
+      await request(API_URL)
+        .put("/cursos/6")
+        .send({
+          titulo: "Atualizando titulo",
+          url: "https://www.codeprestige.com.br/cursos/es6",
+        })
+        .expect(404);
+    });
   });
   describe("Faça requisições na API com o método DELETE", () => {
     it("Faça uma requisição delete e retorne status 200", async () => {
@@ -106,6 +118,9 @@ describe("Realiza requisiçoes na API na rota /alunos", () => {
     it("Faça uma requisição e retorne status 200 e body correspontente", async () => {
       const response = await request(API_URL).get("/alunos");
       expect(response.statusCode).toBe(200);
+    });
+    it("Faça uma requisição e o body correspontente", async () => {
+      const response = await request(API_URL).get("/alunos");
       expect(response.body).toEqual(alunos);
     });
   });
@@ -121,7 +136,7 @@ describe("Realiza requisiçoes na API na rota /alunos", () => {
     });
   });
   describe("Faça requisições na API com o método PUT", () => {
-    it("Faça uma atualizaçao do nome com put, e receba status 200 e titulo atualizado", async () => {
+    it("Faça uma atualizaçao do nome e curso, e receba status 200 e nome e curso atualizado", async () => {
       await request(API_URL)
         .put("/alunos/1")
         .send({
@@ -134,13 +149,22 @@ describe("Realiza requisiçoes na API na rota /alunos", () => {
         .query({ nome: "Atualizando nome" })
         .expect(200);
     });
+    it("Faça uma atualizaçao de um id inexistente e retorne status 404", async () => {
+      await request(API_URL)
+        .put("/alunos/6")
+        .send({
+          nome: "Atualizando nome",
+          curso: 1,
+        })
+        .expect(404);
+    });
   });
   describe("Faça requisições na API com o método DELETE", () => {
-    it("Faça uma requisição delete na rota alunos e retorne status 200", async () => {
+    it("Faça uma requisição delete e retorne status 200", async () => {
       const response = await request(API_URL).delete("/alunos/1");
       expect(response.statusCode).toBe(200);
     });
-    it("Faça uma requisição delete na rota alunos e retorne status 404", async () => {
+    it("Faça uma requisição delete em um id inexistente e retorne status 404", async () => {
       const response = await request(API_URL).delete("/alunos/6");
       expect(response.statusCode).toBe(404);
     });
