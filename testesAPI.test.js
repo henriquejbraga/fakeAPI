@@ -57,17 +57,21 @@ const alunos = [
 
 describe("Realiza requisiçoes na API na rota /cursos", () => {
   describe("Faça requisições na API com o método GET", () => {
-    it("Faça uma requisição e retorne status 200 e body correspontente", async () => {
+    it("Deve retornar status 200", async () => {
       const response = await request(API_URL).get("/cursos");
       expect(response.statusCode).toBe(200);
     });
-    it("Faça uma requisição e retorne o body correspontente", async () => {
+    it("Deve retornar o body correspontente", async () => {
       const response = await request(API_URL).get("/cursos");
       expect(response.body).toEqual(cursos);
     });
+    it("Deve retornar status 404 de um id inexistente", async () => {
+      const response = await request(API_URL).get("/cursos/6");
+      expect(response.statusCode).toBe(404);
+    });
   });
   describe("Faça requisições na API com o método POST", () => {
-    it("Deve criar um curso e receber status 201 e verifica se foi criado corretamente", async () => {
+    it("Deve criar um curso e receber status 201 e verificar se foi criado corretamente", async () => {
       const response = await request(API_URL).post("/cursos").send({
         titulo: "treinando teste POST",
         url: "https://www.google.com",
@@ -78,35 +82,39 @@ describe("Realiza requisiçoes na API na rota /cursos", () => {
     });
   });
   describe("Faça requisições na API com o método PUT", () => {
-    it("Faça uma atualizaçao do titulo, e recebe status 200 e título atualizado", async () => {
+    it("Deve atualizar o título e a url, e receber status 200 com o título e url atualizados", async () => {
       await request(API_URL)
         .put("/cursos/1")
         .send({
-          titulo: "Atualizando titulo",
-          url: "https://www.codeprestige.com.br/cursos/es6",
+          titulo: "Atualizando título",
+          url: "Atualizando url",
         })
         .expect(200);
       return await request(API_URL)
         .get("/cursos/1")
-        .query({ titulo: "Atualizando titulo" })
+        .query({ titulo: "Atualizando título" })
         .expect(200);
     });
-    it("Faça uma atualizaçao de um id inexistente e retorne status 404", async () => {
+    it("Deve atualizar um id inexistente e retornar status 404", async () => {
       await request(API_URL)
         .put("/cursos/6")
         .send({
-          titulo: "Atualizando titulo",
+          titulo: "Atualizando título",
           url: "https://www.codeprestige.com.br/cursos/es6",
         })
         .expect(404);
     });
   });
   describe("Faça requisições na API com o método DELETE", () => {
-    it("Faça uma requisição delete e retorne status 200", async () => {
-      const response = await request(API_URL).delete("/cursos/1");
-      expect(response.statusCode).toBe(200);
+    it("Deve retornar status 200 e verificar se o curso nao foi encontrado", async () => {
+      await request(API_URL)
+        .delete("/cursos/1")
+        .expect(200)
+        .then(() => {
+          request(API_URL).delete("/cursos/1").expect(404);
+        });
     });
-    it("Faça uma requisição delete em uma rota inexistente e retorne status 404", async () => {
+    it("Deve retornar status 404 de uma rota inexistente", async () => {
       const response = await request(API_URL).delete("/cursos/5");
       expect(response.statusCode).toBe(404);
     });
@@ -115,17 +123,21 @@ describe("Realiza requisiçoes na API na rota /cursos", () => {
 
 describe("Realiza requisiçoes na API na rota /alunos", () => {
   describe("Faça requisições na API com o método GET", () => {
-    it("Faça uma requisição e retorne status 200 e body correspontente", async () => {
+    it("Deve retornar status 200 e body correspontente", async () => {
       const response = await request(API_URL).get("/alunos");
       expect(response.statusCode).toBe(200);
     });
-    it("Faça uma requisição e o body correspontente", async () => {
+    it("Deve retornar o body correspontente", async () => {
       const response = await request(API_URL).get("/alunos");
       expect(response.body).toEqual(alunos);
     });
+    it("Deve retornar status 404 de um id inexistente", async () => {
+      const response = await request(API_URL).get("/aluno/6");
+      expect(response.statusCode).toBe(404);
+    });
   });
   describe("Faça requisições na API com o método POST", () => {
-    it("Deve criar um aluno e receber status 201 e verifica se foi criado corretamente", async () => {
+    it("Deve criar um aluno e receber status 201 e verificar se foi criado corretamente", async () => {
       const response = await request(API_URL).post("/alunos").send({
         nome: "Henrique Braga",
         curso: 6,
@@ -136,7 +148,7 @@ describe("Realiza requisiçoes na API na rota /alunos", () => {
     });
   });
   describe("Faça requisições na API com o método PUT", () => {
-    it("Faça uma atualizaçao do nome e curso, e receba status 200 e nome e curso atualizado", async () => {
+    it("Deve atualizar o nome e o curso, e receber status 200 com nome e curso atualizados", async () => {
       await request(API_URL)
         .put("/alunos/1")
         .send({
@@ -149,7 +161,7 @@ describe("Realiza requisiçoes na API na rota /alunos", () => {
         .query({ nome: "Atualizando nome" })
         .expect(200);
     });
-    it("Faça uma atualizaçao de um id inexistente e retorne status 404", async () => {
+    it("Deve tentar atualizar um id inexistente e retornar status 404", async () => {
       await request(API_URL)
         .put("/alunos/6")
         .send({
@@ -160,11 +172,11 @@ describe("Realiza requisiçoes na API na rota /alunos", () => {
     });
   });
   describe("Faça requisições na API com o método DELETE", () => {
-    it("Faça uma requisição delete e retorne status 200", async () => {
+    it("Deve retornar status 200", async () => {
       const response = await request(API_URL).delete("/alunos/1");
       expect(response.statusCode).toBe(200);
     });
-    it("Faça uma requisição delete em um id inexistente e retorne status 404", async () => {
+    it("Deve retornar status 404 de um id inexistente", async () => {
       const response = await request(API_URL).delete("/alunos/6");
       expect(response.statusCode).toBe(404);
     });
