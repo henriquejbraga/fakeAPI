@@ -57,14 +57,14 @@ const alunos = [
 
 describe("Realiza requisiçoes na API na rota /cursos", () => {
   describe("Faça requisições na API com o método GET", () => {
-    it("Faça uma requisição e retorne status 200", async () => {
-      const response = await request(API_URL).get("/cursos/");
+    it("Faça uma requisição e retorne status 200 e body correspontente", async () => {
+      const response = await request(API_URL).get("/cursos");
       expect(response.statusCode).toBe(200);
       expect(response.body).toEqual(cursos);
     });
   });
   describe("Faça requisições na API com o método POST", () => {
-    it("Deve criar um curso e receber status 201", async () => {
+    it("Deve criar um curso e receber status 201 e verifica se foi criado corretamente", async () => {
       const response = await request(API_URL).post("/cursos").send({
         titulo: "treinando teste POST",
         url: "https://www.google.com",
@@ -103,14 +103,14 @@ describe("Realiza requisiçoes na API na rota /cursos", () => {
 
 describe("Realiza requisiçoes na API na rota /alunos", () => {
   describe("Faça requisições na API com o método GET", () => {
-    it("Faça uma requisição e retorne status 200", async () => {
-      const response = await request(API_URL).get("/alunos/");
+    it("Faça uma requisição e retorne status 200 e body correspontente", async () => {
+      const response = await request(API_URL).get("/alunos");
       expect(response.statusCode).toBe(200);
       expect(response.body).toEqual(alunos);
     });
   });
   describe("Faça requisições na API com o método POST", () => {
-    it("Deve criar um aluno e receber status 201", async () => {
+    it("Deve criar um aluno e receber status 201 e verifica se foi criado corretamente", async () => {
       const response = await request(API_URL).post("/alunos").send({
         nome: "Henrique Braga",
         curso: 6,
