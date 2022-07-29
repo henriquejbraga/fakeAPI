@@ -2,8 +2,8 @@ const request = require("supertest");
 const API_URL = "https://my-json-server.typicode.com/henriquejbraga/fakeAPI";
 
 // import db from "./db.json"
-// const dbCursos = db.json
 // está dando erro no import: SyntaxError: Cannot use import statement outside a module
+
 const cursos = [
   {
     id: 1,
