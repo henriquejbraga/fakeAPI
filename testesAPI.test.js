@@ -65,9 +65,14 @@ describe("Realiza requisiçoes na API na rota /cursos", () => {
       const response = await request(API_URL).get("/cursos");
       expect(response.body).toEqual(cursos);
     });
-    it("Deve retornar status 404 de um id inexistente", async () => {
+    it("Deve retornar status 404 e um objeto vazio de um id inexistente ", async () => {
       const response = await request(API_URL).get("/cursos/6");
       expect(response.statusCode).toBe(404);
+      expect(response.body).toEqual({})
+    });
+    it("Deve retornar um objeto vazio de um id inexistente ", async () => {
+      const response = await request(API_URL).get("/cursos/6");
+      expect(response.body).toEqual({})
     });
   });
   describe("Faça requisições na API com o método POST", () => {
@@ -131,9 +136,14 @@ describe("Realiza requisiçoes na API na rota /alunos", () => {
       const response = await request(API_URL).get("/alunos");
       expect(response.body).toEqual(alunos);
     });
-    it("Deve retornar status 404 de um id inexistente", async () => {
+    it("Deve retornar status 404 e um objeto vazio de um id inexistente", async () => {
       const response = await request(API_URL).get("/aluno/6");
       expect(response.statusCode).toBe(404);
+      expect(response.body).toEqual({})
+    });
+    it("Deve retornar um objeto vazio de um id inexistente", async () => {
+      const response = await request(API_URL).get("/aluno/6");
+      expect(response.body).toEqual({})
     });
   });
   describe("Faça requisições na API com o método POST", () => {
