@@ -1,7 +1,7 @@
 const request = require('supertest');
 const API_URL = 'https://my-json-server.typicode.com/henriquejbraga/fakeAPI';
 
-// import db from "./db.json"
+// import db from './db.json';
 // está dando erro no import: SyntaxError: Cannot use import statement outside a module
 
 const cursos = [
@@ -183,7 +183,7 @@ describe('Realiza requisiçoes na API na rota /alunos', () => {
       const response = await request(API_URL).delete('/alunos/1');
       expect(response.statusCode).toBe(200);
     });
-    
+
     it('Deve retornar status 404 de um id inexistente', async () => {
       const response = await request(API_URL).delete('/alunos/6');
       expect(response.statusCode).toBe(404);
